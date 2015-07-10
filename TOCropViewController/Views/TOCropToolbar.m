@@ -31,6 +31,7 @@
 @property (nonatomic, strong) UIButton *cancelIconButton;
 
 @property (nonatomic, strong) UIButton *rotateButton;
+@property (nonatomic, strong) UIButton *flipButton;
 @property (nonatomic, strong) UIButton *resetButton;
 @property (nonatomic, strong) UIButton *clampButton;
 
@@ -42,6 +43,7 @@
 + (UIImage *)resetImage;
 + (UIImage *)rotateImage;
 + (UIImage *)clampImage;
++ (UIImage *)flipImage;
 
 @end
 
@@ -99,6 +101,13 @@
     [_rotateButton addTarget:self action:@selector(buttonTapped:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:_rotateButton];
     
+    _flipButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    _flipButton.contentMode = UIViewContentModeCenter;
+    _flipButton.tintColor = [UIColor whiteColor];
+    [_flipButton setImage:[TOCropToolbar flipImage] forState:UIControlStateNormal];
+    [_flipButton addTarget:self action:@selector(buttonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    [self addSubview:_flipButton];
+    
     _resetButton = [UIButton buttonWithType:UIButtonTypeSystem];
     _resetButton.contentMode = UIViewContentModeCenter;
     _resetButton.tintColor = [UIColor whiteColor];
@@ -121,6 +130,7 @@
     self.doneTextButton.hidden   = (verticalLayout);
     
     self.rotateButton.hidden = self.rotateButtonHidden;
+    self.flipButton.hidden = self.flipButtonHidden;
     
     if (verticalLayout == NO) {
         CGRect frame = CGRectZero;
@@ -147,6 +157,13 @@
             
             buttonFrame.origin.x = CGRectGetMidX(containerRect) -  22.0f;
             self.resetButton.frame = buttonFrame;
+        }
+        
+        if (self.flipButtonHidden == FALSE) {
+            buttonFrame.origin.x = CGRectGetMinX(containerRect) - 44.0f;
+            CGRect smallFrame = CGRectMake(buttonFrame.origin.x+11.0f, buttonFrame.origin.y+ 11.0f , 22.0f, 22.0f);
+            self.flipButton.frame = smallFrame;
+            
         }
         
         buttonFrame.origin.x = CGRectGetMaxX(containerRect) - 44.0f;
@@ -181,6 +198,13 @@
             self.resetButton.frame = buttonFrame;
         }
 
+        
+        if (self.flipButtonHidden == FALSE) {
+            buttonFrame.origin.y = CGRectGetMinY(containerRect) - 44.0f;
+            CGRect smallFrame = CGRectMake(buttonFrame.origin.x+11.0f, buttonFrame.origin.y+ 11.0f , 22.0f, 22.0f);
+            self.flipButton.frame = smallFrame;
+        }
+        
         buttonFrame.origin.y = CGRectGetMaxY(containerRect) - 44.0f;
         self.clampButton.frame = buttonFrame;
     }
@@ -201,6 +225,9 @@
     }
     else if (button == self.rotateButton && self.rotateButtonTapped) {
         self.rotateButtonTapped();
+    }
+    else if (button == self.flipButton && self.flipButtonTapped) {
+        self.flipButtonTapped();
     }
     else if (button == self.clampButton && self.clampButtonTapped) {
         self.clampButtonTapped();
@@ -232,6 +259,15 @@
         return;
     
     _rotateButtonHidden = rotateButtonHidden;
+    [self setNeedsLayout];
+}
+
+- (void)setFlipButtonHidden:(BOOL)flipButtonHidden
+{
+    if (_flipButtonHidden == flipButtonHidden)
+        return;
+    
+    _flipButtonHidden = flipButtonHidden;
     [self setNeedsLayout];
 }
 
@@ -304,6 +340,11 @@
     UIGraphicsEndImageContext();
     
     return cancelImage;
+}
+
++ (UIImage*) flipImage
+{
+    return [UIImage imageNamed:@"336-reloop"];
 }
 
 + (UIImage *)rotateImage
