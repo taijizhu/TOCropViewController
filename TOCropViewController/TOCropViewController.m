@@ -26,6 +26,7 @@
 #import "TOCropViewControllerTransitioning.h"
 #import "TOActivityCroppedImageProvider.h"
 #import "UIImage+CropRotate.h"
+#import "UIImage+CropFlip.h"
 #import "TOCroppedImageAttributes.h"
 
 typedef NS_ENUM(NSInteger, TOCropViewControllerAspectRatio) {
@@ -98,6 +99,7 @@ typedef NS_ENUM(NSInteger, TOCropViewControllerAspectRatio) {
     self.toolbar.resetButtonTapped =    ^{ [weakSelf resetCropViewLayout]; };
     self.toolbar.clampButtonTapped =    ^{ [weakSelf showAspectRatioDialog]; };
     self.toolbar.rotateButtonTapped =   ^{ [weakSelf rotateCropView]; };
+    self.toolbar.flipButtonTapped =     ^{ [weakSelf flipCropView]; };
     
     self.transitioningDelegate = self;
     
@@ -319,6 +321,13 @@ typedef NS_ENUM(NSInteger, TOCropViewControllerAspectRatio) {
 - (void)rotateCropView
 {
     [self.cropView rotateImageNinetyDegreesAnimated:YES];
+}
+
+- (void) flipCropView
+{
+    self.image = [self.image CropFlipImageByAxis:MVImageFlipYAxis];
+    
+    [self.cropView flipImageHorizontal];
 }
 
 #pragma mark - Crop View Delegates -
