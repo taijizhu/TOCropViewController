@@ -158,5 +158,9 @@
  */
 - (void)setCroppingViewsHidden:(BOOL)hidden animated:(BOOL)animated;
 
+/**
+ Flip image horizontal
+ */
+- (void)flipImageHorizontal;
 
 @end
