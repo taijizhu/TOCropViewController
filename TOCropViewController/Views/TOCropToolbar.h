@@ -30,6 +30,7 @@
 @property (nonatomic, copy) void (^rotateButtonTapped)(void);
 @property (nonatomic, copy) void (^clampButtonTapped)(void);
 @property (nonatomic, copy) void (^resetButtonTapped)(void);
+@property (nonatomic, copy) void (^flipButtonTapped)(void);
 
 /* Aspect ratio button settings */
 @property (nonatomic, assign) BOOL clampButtonGlowing;
@@ -37,6 +38,9 @@
 
 /* Disable the rotate button */
 @property (nonatomic, assign) BOOL rotateButtonHidden;
+
+/* Disable the rotate button */
+@property (nonatomic, assign) BOOL flipButtonHidden;
 
 /* Enable the reset button */
 @property (nonatomic, assign) BOOL resetButtonEnabled;
