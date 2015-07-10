@@ -23,6 +23,7 @@
 #import "TOCropView.h"
 #import "TOCropOverlayView.h"
 #import "TOCropScrollView.h"
+#import "UIImage+CropFlip.h"
 
 #define TOCROPVIEW_BACKGROUND_COLOR [UIColor colorWithWhite:0.12f alpha:1.0f]
 
@@ -989,6 +990,14 @@ typedef NS_ENUM(NSInteger, TOCropViewOverlayEdge) {
         [self moveCroppedContentToCenterAnimated:NO];
     } completion:nil];
 }
+
+
+- (void)flipImageHorizontal {
+    self.foregroundImageView.image = [self.foregroundImageView.image CropFlipImageByAxis:MVImageFlipYAxis];
+    self.backgroundImageView.image = [self.backgroundImageView.image CropFlipImageByAxis:MVImageFlipYAxis];
+    
+}
+
 
 - (void)rotateImageNinetyDegreesAnimated:(BOOL)animated
 {
